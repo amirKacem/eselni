@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // redux
@@ -6,21 +7,7 @@ import { signUpRequestSelector } from 'store/slices/signUpRequestSlice';
 import { useSelector, useDispatch } from 'react-redux';
 
 // material-ui
-import {
-    Box,
-    Button,
-    Divider,
-    FormControl,
-    FormHelperText,
-    Grid,
-    Link,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    Stack,
-    Typography
-} from '@mui/material';
+import { Button, FormHelperText, Grid, Link, IconButton, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -28,7 +15,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 // third party
 import * as Yup from 'yup';
-import { Formik, FieldArray, Field, ErrorMessage } from 'formik';
+import { Formik, FieldArray } from 'formik';
 import { DateField } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
@@ -101,12 +88,12 @@ const AuthRegister = ({ hideForm }) => {
                         })
                     )
                 })}
-                onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+                onSubmit={async (values) => {
                     values.fullName = values.firstname + ' ' + values.lastname;
                     await dispatch(signUpRequest(values));
                 }}
             >
-                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values, setFieldValue, setTouched }) => (
+                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values, setFieldValue }) => (
                     <form noValidate onSubmit={handleSubmit}>
                         {error && (
                             <Grid item xs={12}>
@@ -401,6 +388,10 @@ const AuthRegister = ({ hideForm }) => {
             </Formik>
         </>
     );
+};
+
+AuthRegister.propTypes = {
+    hideForm: PropTypes.func
 };
 
 export default AuthRegister;

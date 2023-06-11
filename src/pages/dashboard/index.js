@@ -1,20 +1,13 @@
-import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUserData, login, signOut } from 'store/thunks/authThunk';
 // material-ui
-import { Grid, List, Stack, TextField, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 // project import
 import RegistrationRequest from './RegistrationRequestTable';
 import MainCard from 'components/MainCard';
 import { registrationRequestByStatus } from 'store/thunks/registerRequestThunk';
-
-// avatar style
-const avatarSX = {
-    width: 36,
-    height: 36,
-    fontSize: '1rem'
-};
 
 // ==============================|| DASHBOARD - DEFAULT ||============================== //
 
@@ -24,7 +17,7 @@ const DashboardDefault = ({ status }) => {
 
     useEffect(() => {
         dispatch(registrationRequestByStatus(status));
-    }, [status]);
+    }, [status, dispatch]);
 
     return (
         <Grid container rowSpacing={4.5} columnSpacing={2.75}>
@@ -46,6 +39,10 @@ const DashboardDefault = ({ status }) => {
             </Grid>
         </Grid>
     );
+};
+
+DashboardDefault.propTypes = {
+    status: PropTypes.string
 };
 
 export default DashboardDefault;

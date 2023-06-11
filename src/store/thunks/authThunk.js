@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from '../../utils/helpers';
+import { setLocalStorageItem } from '../../utils/helpers';
 import api from '../../api';
 
 const baseAccountsPath = 'api/v1/accounts';

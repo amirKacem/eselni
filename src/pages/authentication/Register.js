@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // material-ui
-import { Grid, Stack, Typography, Divider } from '@mui/material';
+import { Grid, Stack, Typography } from '@mui/material';
 
 // project import
 import AuthWrapper from './AuthWrapper';

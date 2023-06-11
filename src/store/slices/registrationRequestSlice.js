@@ -13,7 +13,7 @@ export const registrationRequestSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [registrationRequestByStatus.pending]: (state, action) => {
+        [registrationRequestByStatus.pending]: (state) => {
             state.isLoading = true;
         },
         [registrationRequestByStatus.fulfilled]: (state, action) => {
@@ -21,7 +21,7 @@ export const registrationRequestSlice = createSlice({
             state.isSuccess = true;
             state.requests = action.payload;
         },
-        [registrationRequestByStatus.rejected]: (state, action) => {
+        [registrationRequestByStatus.rejected]: (state) => {
             state.isLoading = false;
             state.isError = true;
         }

@@ -121,6 +121,10 @@ const RegistrationRequestStatus = ({ status }) => {
     );
 };
 
+RegistrationRequestStatus.propTypes = {
+    status: PropTypes.string
+};
+
 // ==============================|| ORDER TABLE ||============================== //
 
 export default function RegistrationRequestTable({ rows }) {
@@ -199,3 +203,7 @@ export default function RegistrationRequestTable({ rows }) {
         </Box>
     );
 }
+
+RegistrationRequestTable.propTypes = {
+    rows: PropTypes.array
+};

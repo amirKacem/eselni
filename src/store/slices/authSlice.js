@@ -18,11 +18,11 @@ export const authSlice = createSlice({
         }
     },
     extraReducers: {
-        [signOut.fulfilled]: (state, action) => {
+        [signOut.fulfilled]: (state) => {
             state.isLoading = false;
             state.user = {};
         },
-        [login.pending]: (state, action) => {
+        [login.pending]: (state) => {
             state.isLoading = true;
         },
         [login.fulfilled]: (state, action) => {

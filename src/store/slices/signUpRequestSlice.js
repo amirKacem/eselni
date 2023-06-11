@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signUpRequest, registrationRequestByStatus } from '../thunks/registerRequestThunk';
+import { signUpRequest } from '../thunks/registerRequestThunk';
 
 const initialState = {
     isLoading: false,
@@ -12,14 +12,14 @@ export const signUpRequestSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [signUpRequest.pending]: (state, action) => {
+        [signUpRequest.pending]: (state) => {
             state.isLoading = true;
         },
-        [signUpRequest.fulfilled]: (state, action) => {
+        [signUpRequest.fulfilled]: (state) => {
             state.isLoading = false;
             state.isSuccess = true;
         },
-        [signUpRequest.rejected]: (state, action) => {
+        [signUpRequest.rejected]: (state) => {
             state.isLoading = false;
             state.isError = true;
         }

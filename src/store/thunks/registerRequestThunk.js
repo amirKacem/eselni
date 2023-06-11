@@ -6,7 +6,7 @@ const baseRegisterRequestPath = 'api/v1/registration_requests';
 export const signUpRequest = createAsyncThunk('request/signUp', async (data, { rejectWithValue }) => {
     try {
         const response = await api.post(baseRegisterRequestPath, data);
-        return data;
+        return response.data;
     } catch (e) {
         console.log(e);
         return rejectWithValue(e.message);
