@@ -5,6 +5,7 @@ import { useMediaQuery } from '@mui/material';
 import Search from './Search';
 import Profile from './Profile';
 import MobileSection from './MobileSection';
+import { Box } from '@mui/material';
 
 // ==============================|| HEADER - CONTENT ||============================== //
 

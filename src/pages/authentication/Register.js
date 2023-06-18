@@ -23,14 +23,14 @@ const Register = () => {
                 {hideForm ? (
                     <Grid item xs={12}>
                         <Typography align="center" size="large" sx={{ color: '#468d41', fontSize: '18px' }}>
-                            Your Regisrtation Request Has Been Sent
+                            Your Registration Request Has Been Sent
                         </Typography>
                     </Grid>
                 ) : (
                     <>
                         <Grid item xs={12}>
                             <Stack direction="row" justifyContent="space-between" alignItems="baseline" sx={{ mb: { xs: -0.5, sm: 0.5 } }}>
-                                <Typography variant="h3">Registeration Request</Typography>
+                                <Typography variant="h3">Registration Request</Typography>
                                 <Typography component={Link} to="/login" variant="body1" sx={{ textDecoration: 'none' }} color="primary">
                                     Sign In
                                 </Typography>

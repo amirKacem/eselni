@@ -57,7 +57,6 @@ const AuthRegister = ({ hideForm }) => {
                     firstname: '',
                     lastname: '',
                     email: '',
-                    date: dayjs(),
                     phoneNumber: '',
                     presentation: '',
                     status: 0,
@@ -74,7 +73,6 @@ const AuthRegister = ({ hideForm }) => {
                     firstname: Yup.string().max(255).required('First Name is required'),
                     lastname: Yup.string().max(255).required('Last Name is required'),
                     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    date: Yup.date().required(),
                     presentation: Yup.string().required(),
                     phoneNumber: Yup.number('Invalid Phone Number')
                         .positive("A phone number can't start with a minus")
@@ -168,7 +166,7 @@ const AuthRegister = ({ hideForm }) => {
                                     )}
                                 </Stack>
                             </Grid>
-                            <Grid item xs={12} md={6}>
+                            <Grid item xs={12} md={12}>
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="phone-register">Phone Number*</InputLabel>
                                     <OutlinedInput
@@ -185,26 +183,6 @@ const AuthRegister = ({ hideForm }) => {
                                     {touched.phoneNumber && errors.phoneNumber && (
                                         <FormHelperText error id="helper-text-phoneNumber-signup">
                                             {errors.phoneNumber}
-                                        </FormHelperText>
-                                    )}
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <Stack spacing={1}>
-                                    <InputLabel htmlFor="date-register">Date *</InputLabel>
-                                    <DateField
-                                        fullWidth
-                                        label=""
-                                        id="date-register"
-                                        value={values.date}
-                                        onChange={(date) => setFieldValue('date', date)}
-                                        name="date"
-                                        inputProps={{}}
-                                        error={Boolean(touched.date && errors.date)}
-                                    />
-                                    {touched.date && errors.date && (
-                                        <FormHelperText error id="helper-text-date-register">
-                                            {errors.date}
                                         </FormHelperText>
                                     )}
                                 </Stack>
@@ -378,7 +356,7 @@ const AuthRegister = ({ hideForm }) => {
                                         variant="contained"
                                         color="primary"
                                     >
-                                        Create Account
+                                        Submit
                                     </Button>
                                 </AnimateButton>
                             </Grid>

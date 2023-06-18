@@ -7,7 +7,7 @@ import PrivateRoute from 'utils/route-guard/PrivateRoute';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
-
+const RegistrationDetail = Loadable(lazy(() => import('pages/registration-detail')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -29,6 +29,10 @@ const MainRoutes = {
         {
             path: 'requests-rejected',
             element: <DashboardDefault status={'REJECTED'} />
+        },
+        {
+            path: 'request/:requestId',
+            element: <RegistrationDetail />
         }
     ]
 };

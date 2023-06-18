@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { Box, IconButton, Link, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
@@ -130,6 +131,11 @@ RegistrationRequestStatus.propTypes = {
 export default function RegistrationRequestTable({ rows }) {
     const [order] = useState('asc');
     const [orderBy] = useState('id');
+    const navigate = useNavigate();
+
+    const handleNavigate = (id) => {
+        navigate('/request/' + id);
+    };
 
     return (
         <Box>
@@ -180,17 +186,7 @@ export default function RegistrationRequestTable({ rows }) {
                                     </TableCell>
                                     <TableCell align="left">{row.certificates.length}</TableCell>
                                     <TableCell>
-                                        {row.status === 'PENDING' && (
-                                            <>
-                                                <IconButton color="primary" onClick={() => handleStatusChange(row.id)}>
-                                                    <CheckCircle sx={{ color: 'green' }} />
-                                                </IconButton>
-                                                <IconButton color="primary" onClick={() => handleStatusChange(row.id)}>
-                                                    <Close sx={{ color: 'red' }} />
-                                                </IconButton>
-                                            </>
-                                        )}
-                                        <IconButton>
+                                        <IconButton component={Link} onClick={(id) => handleNavigate(row.id)}>
                                             <Visibility color="primary" />
                                         </IconButton>
                                     </TableCell>
