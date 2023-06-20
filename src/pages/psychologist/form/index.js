@@ -3,10 +3,13 @@ import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 // redux
-import { signUpRequest } from 'store/thunks/registerRequestThunk';
+import { createPsychologistRequest } from 'store/thunks/psychologistThunk';
 import { findRegistrationRequest } from 'store/thunks/registerRequestThunk';
 import { signUpRequestSelector } from 'store/slices/signUpRequestSlice';
 import { useSelector, useDispatch } from 'react-redux';
+
+import { useState } from 'react';
+import { FormControl, MenuItem, Select, Checkbox, ListItemText, Box, Chip } from '@mui/material';
 
 // material-ui
 import {
@@ -56,6 +59,34 @@ const PsychologistForm = ({ hideForm }) => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+
+    const handleClick = async (values) => {
+        console.log('true');
+        await dispatch(
+            createPsychologistRequest({
+                account: {
+                    email: registrationRequest.email,
+                    password: values.password,
+                    fullName: registrationRequest.fullName
+                },
+                city: values.city,
+                fullAddress: values.fullAddress,
+                image: values.image,
+                phoneNumber: registrationRequest.phoneNumber,
+                presentation: registrationRequest.presentation,
+                hourlyRate: values.hourlyRate,
+                messageRate: 0,
+                certificates: registrationRequest.certificates,
+                domains: values.domains,
+                bankAccount: {
+                    IBAN: values.bankAccount_IBAN,
+                    bank: values.bankAccount_bank,
+                    fullName: values.bankAccount_fullName
+                }
+            })
+        );
+    };
+
     console.log(registrationRequest);
     useEffect(() => {
         dispatch(findRegistrationRequest(requestId));
@@ -69,7 +100,20 @@ const PsychologistForm = ({ hideForm }) => {
 
     if (isSuccess) {
         hideForm();
+        console.log('test');
     }
+
+    const domains = [
+        { value: 'CLINICAL_PSYCHOLOGY ', label: 'Clinical psychology' },
+        { value: 'WORK_PSYCHOLOGY', label: 'Work psychology' },
+        { value: 'RELAXATION_PSYCHOLOGY', label: 'Relaxation psychology' },
+        { value: 'ADDICTION_STUDIES', label: 'Addiction studies' },
+        { value: 'CHILD_PSYCHOLOGY', label: 'Child psychology' },
+        { value: 'ADOLESCENT_PSYCHOLOGY', label: 'Adolescent psychology' },
+        { value: 'NEUROPSYCHOLOGY', label: 'Neuropsychology' }
+        // Add more options as needed
+    ];
+
     return (
         <>
             <Formik
@@ -78,30 +122,52 @@ const PsychologistForm = ({ hideForm }) => {
                     password: '',
                     hourlyRate: 0,
                     city: '',
-                    address: '',
+                    fullAddress: '',
                     image: '',
-                    bankAccount: {
-                        IBAN: '',
-                        fullName: '',
-                        bank: ''
-                    },
-
-                    submit: null
+                    domains: [],
+                    bankAccount_fullName: '',
+                    bankAccount_IBAN: '',
+                    bankAccount_bank: ''
                 }}
                 validationSchema={Yup.object().shape({
                     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
                     password: Yup.string().max(255).required('Password is required'),
-                    bankAccount: Yup.object().shape({
-                        IBAN: Yup.number().required(),
-                        bank: Yup.string().required(),
-                        fullName: Yup.string().required()
-                    })
+                    city: Yup.string().max(255).required('City is required'),
+                    fullAddress: Yup.string().max(255).required('Full Address is required'),
+                    image: Yup.string().required('Image is required'),
+                    domains: Yup.array().min(1, 'At least one domain must be selected'),
+                    bankAccount_fullName: Yup.string().max(255).required('Full Name is required'),
+                    bankAccount_IBAN: Yup.string().max(255).required('IBAN is required'),
+                    bankAccount_bank: Yup.string().max(255).required('BANK is required')
                 })}
                 onSubmit={async (values) => {
-                    //await dispatch(signUpRequest(values));
+                    console.log('true');
+                    await dispatch(
+                        createPsychologistRequest({
+                            account: {
+                                email: registrationRequest.email,
+                                password: values.password,
+                                fullName: registrationRequest.fullName
+                            },
+                            city: values.city,
+                            fullAddress: values.fullAddress,
+                            image: values.image,
+                            phoneNumber: registrationRequest.phoneNumber,
+                            presentation: registrationRequest.presentation,
+                            hourlyRate: values.hourlyRate,
+                            messageRate: 0,
+                            certificates: registrationRequest.certificates,
+                            domains: values.domains,
+                            bankAccount: {
+                                IBAN: values.bankAccount_IBAN,
+                                bank: values.bankAccount_bank,
+                                fullName: values.bankAccount_fullName
+                            }
+                        })
+                    );
                 }}
             >
-                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values, setFieldValue }) => (
+                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values, setFieldValue, isValid }) => (
                     <form noValidate onSubmit={handleSubmit}>
                         {error && (
                             <Grid item xs={12}>
@@ -128,7 +194,7 @@ const PsychologistForm = ({ hideForm }) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="password-login">Password</InputLabel>
+                                    <InputLabel htmlFor="password-login">Password*</InputLabel>
                                     <OutlinedInput
                                         fullWidth
                                         error={Boolean(touched.password && errors.password)}
@@ -183,21 +249,21 @@ const PsychologistForm = ({ hideForm }) => {
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="firstname-signup">Address*</InputLabel>
+                                    <InputLabel htmlFor="firstname-signup">Full Address*</InputLabel>
                                     <OutlinedInput
                                         id="address-psy"
                                         type="text"
-                                        value={values.address}
-                                        name="address"
+                                        value={values.fullAddress}
+                                        name="fullAddress"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         placeholder="Address"
                                         fullWidth
-                                        error={Boolean(touched.address && errors.address)}
+                                        error={Boolean(touched.fullAddress && errors.fullAddress)}
                                     />
-                                    {touched.address && errors.address && (
+                                    {touched.fullAddress && errors.fullAddress && (
                                         <FormHelperText error id="helper-text-address">
-                                            {errors.address}
+                                            {errors.fullAddress}
                                         </FormHelperText>
                                     )}
                                 </Stack>
@@ -225,6 +291,11 @@ const PsychologistForm = ({ hideForm }) => {
                                         />
                                     </Button>
                                 </Stack>
+                                {errors.image && (
+                                    <FormHelperText error id="helper-text-image">
+                                        {errors.image}
+                                    </FormHelperText>
+                                )}
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <Stack spacing={1}>
@@ -247,7 +318,38 @@ const PsychologistForm = ({ hideForm }) => {
                                     )}
                                 </Stack>
                             </Grid>
-
+                            <Grid item xs={12} md={12}>
+                                <Stack spacing={1}>
+                                    <InputLabel id="demo-multiple-chip-label">Domains</InputLabel>
+                                    <Select
+                                        labelId="demo-multiple-chip-label"
+                                        multiple
+                                        value={values.domains}
+                                        name="domains"
+                                        onChange={handleChange}
+                                        input={<OutlinedInput id="select-multiple-chip" placeholder="Chip" />}
+                                        renderValue={(selected) => (
+                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                {selected.map((value) => (
+                                                    <Chip key={value} label={value} variant="light" color="primary" size="small" />
+                                                ))}
+                                            </Box>
+                                        )}
+                                        error={Boolean(errors.domains)}
+                                    >
+                                        {domains.map((domain) => (
+                                            <MenuItem key={domain.value} value={domain.value}>
+                                                {domain.label}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    {errors.domains && (
+                                        <FormHelperText error id="helper-text-domains">
+                                            {errors.domains}
+                                        </FormHelperText>
+                                    )}
+                                </Stack>
+                            </Grid>
                             <Typography sx={{ mt: 5 }} variant="h4">
                                 Bank Account:
                             </Typography>
@@ -255,65 +357,61 @@ const PsychologistForm = ({ hideForm }) => {
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="firstname-signup">Full Name*</InputLabel>
                                     <OutlinedInput
-                                        id="firstname-login"
                                         type="text"
-                                        value={values.firstname}
-                                        name="bankAccount.fullname"
+                                        value={values.bankAccount_fullName}
+                                        name="bankAccount_fullName"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         placeholder="John"
                                         fullWidth
                                     />
-                                    {touched.firstname && errors.firstname && (
+                                    {touched.bankAccount_fullName && errors.bankAccount_fullName && (
                                         <FormHelperText error id="helper-bankAccount-fullName">
-                                            {errors.firstname}
+                                            {errors.bankAccount_fullName}
                                         </FormHelperText>
                                     )}
                                 </Stack>
                             </Grid>
                             <Grid item xs={12} md={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="firstname-signup">Bank Name*</InputLabel>
+                                    <InputLabel htmlFor="firstname-signup">Bank*</InputLabel>
                                     <OutlinedInput
-                                        id="bank-name"
                                         type="text"
-                                        value={values.firstname}
-                                        name="bankAccount.bank"
+                                        value={values.bankAccount_bank}
+                                        name="bankAccount_bank"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="Bank"
+                                        placeholder="John"
                                         fullWidth
-                                        //error={Boolean(touched.bankAccount.bank && errors.bankAccount.bank)}
                                     />
-                                    {touched.bankAccount && errors.bankAccount.bank && (
-                                        <FormHelperText error id="helper-bank-name">
-                                            {errors.bankAccount.bank}
+                                    {touched.bankAccount_bank && errors.bankAccount_bank && (
+                                        <FormHelperText error id="helper-bankAccount-bank">
+                                            {errors.bankAccount_bank}
                                         </FormHelperText>
                                     )}
                                 </Stack>
                             </Grid>
+
                             <Grid item xs={12} md={12}>
                                 <Stack spacing={1}>
                                     <InputLabel htmlFor="firstname-signup">IBAN*</InputLabel>
                                     <OutlinedInput
                                         id="bank-iban"
                                         type="text"
-                                        value={values.bankAccount.IBAN}
-                                        name="fullname"
+                                        value={values.bankAccount_IBAN}
+                                        name="bankAccount_IBAN"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         placeholder="iban"
                                         fullWidth
-                                        //error={Boolean(touched.bankAccount.IBAN && errors.bankAccount.IBAN)}
                                     />
-                                    {touched.firsbankAccount && errors.bankAccount.IBAN && (
+                                    {touched.bankAccount_IBAN && errors.bankAccount_IBAN && (
                                         <FormHelperText error id="helper-text-IBAN">
-                                            {errors.bankAccount.IBAN}
+                                            {errors.bankAccount_IBAN}
                                         </FormHelperText>
                                     )}
                                 </Stack>
                             </Grid>
-
                             {errors.submit && (
                                 <Grid item xs={12}>
                                     <FormHelperText error>{errors.submit}</FormHelperText>
@@ -329,6 +427,9 @@ const PsychologistForm = ({ hideForm }) => {
                                         type="submit"
                                         variant="contained"
                                         color="primary"
+                                        onClick={async () => {
+                                            handleClick(values);
+                                        }}
                                     >
                                         Submit
                                     </Button>

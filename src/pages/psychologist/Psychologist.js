@@ -8,23 +8,32 @@ import { Grid, Stack, Typography } from '@mui/material';
 import AuthWrapper from '../authentication/AuthWrapper';
 import AuthRegister from '../authentication/auth-forms/AuthRegister';
 import PsychologistForm from './form/index';
+// redux
+import { createPsychologistRequest } from 'store/thunks/psychologistThunk';
+import { findRegistrationRequest } from 'store/thunks/registerRequestThunk';
+import { signUpRequestSelector } from 'store/slices/signUpRequestSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 // ================================|| REGISTER ||================================ //
 
 const Psychologist = () => {
-    const [hideForm, setHideForm] = useState(false);
+    //const [hideForm, setHideForm] = useState(false);
+
+    const { isSuccess, isError } = useSelector(signUpRequestSelector);
+    const registrationRequest = useSelector((state) => state.registrationRequest.request);
 
     const hideFormallback = () => {
+        console.log('hide forme');
         setHideForm(true);
     };
 
     return (
         <AuthWrapper>
             <Grid container spacing={4}>
-                {hideForm ? (
+                {isSuccess ? (
                     <Grid item xs={12}>
                         <Typography align="center" size="large" sx={{ color: '#468d41', fontSize: '18px' }}>
-                            Your Registration Request Has Been Sent
+                            Your account has been created successfully.
                         </Typography>
                     </Grid>
                 ) : (
