@@ -15,7 +15,7 @@ const AuthFooter = () => {
                 textAlign={matchDownSM ? 'center' : 'inherit'}
             >
                 <Typography variant="subtitle2" color="secondary" component="span">
-                    &copy; Eselni&nbsp;
+                    &copy; Psynet&nbsp;
                 </Typography>
 
                 <Stack
