@@ -381,7 +381,7 @@ const PsychologistForm = ({ hideForm }) => {
                                         name="bankAccount_bank"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="John"
+                                        placeholder="bank"
                                         fullWidth
                                     />
                                     {touched.bankAccount_bank && errors.bankAccount_bank && (
@@ -402,7 +402,7 @@ const PsychologistForm = ({ hideForm }) => {
                                         name="bankAccount_IBAN"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="iban"
+                                        placeholder="IBAN"
                                         fullWidth
                                     />
                                     {touched.bankAccount_IBAN && errors.bankAccount_IBAN && (
